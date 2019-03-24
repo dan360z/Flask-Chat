@@ -21,10 +21,14 @@ def index():
     
     if request.method == "POST":
         session["username"] = request.form["username"]
+    
+    if messages:
+        del messages [:]
+        return redirect(url_for("user", username=session["username"]))
         
     if "username" in session:
         return redirect(url_for("user", username=session["username"]))
-    
+        
     return render_template("index.html")
     
     
@@ -41,4 +45,4 @@ def user(username):
     return render_template("chat.html", username = username, chat_messages = messages)
 
     
-app.run(host=os.getenv('IP', '0.0.0.0'), port=int(os.getenv('PORT', '5000')), debug=False) #Environment variable
+app.run(host=os.getenv('IP', '0.0.0.0'), port=int(os.getenv('PORT', '5000')), debug=True) #Environment variable
